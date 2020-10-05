@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useCycle } from "framer-motion";
 import { Container, H1, HeroSection, Banner, TextBox } from "./Styles";
 import { ReactComponent as BannerIllustration } from "./bighead.svg";
@@ -15,31 +15,37 @@ const TextVariants = {
 };
 
 const BannerVariants = {
-  animationOne: { x: -250, opacity: 1, transition: { duration: 0.5 } },
+  animationOne: {
+    x: -400,
+    transition: { duration: 0.5 },
+  },
+
   animationTwo: {
-    y: [0, -20],
-    opacity: 1,
-    transition: { yoyo: Infinity, ease: "easeIn" },
+    y: [0, -40],
+    transition: {
+      y: {
+        yoyo: Infinity,
+        duration: 0.25,
+        ease: "easeOut",
+      },
+    },
   },
 };
 
 function App() {
   const [animation, cycleAnimation] = useCycle("animationOne", "animationTwo");
-
-  useEffect(() => {
-    setTimeout(() => {
-      cycleAnimation();
-    }, 1000);
-  }, []);
-
   return (
     <div className="App">
       <Container>
         <H1 variants={H1Variants} initial="initial" animate="animate">
           Cool Hero Section Anmiation
         </H1>
-        <HeroSection>
-          <TextBox variants={TextVariants} initial="initial" animate="animate">
+        <HeroSection initial="initial" animate="animate">
+          <TextBox
+            variants={TextVariants}
+            initial="initial"
+            animate={animation}
+          >
             Storage shed, troughs feed bale manure, is garden wheat oats at
             augers. Bulls at rose garden cucumbers mice sunflower wheat in pig.
             Chainsaw foal hay hook, herbs at combine harvester, children is
@@ -47,10 +53,11 @@ function App() {
             storage shed, troughs feed bale manure, is garden wheat oats at
             augers. Lamb.
           </TextBox>
-          <Banner variants={BannerVariants} animate={animation}>
+          <Banner variants={BannerVariants} initial="initial" animate="animate">
             <BannerIllustration />
           </Banner>
         </HeroSection>
+        <button onClick={() => cycleAnimation()}>click me</button>
       </Container>
     </div>
   );

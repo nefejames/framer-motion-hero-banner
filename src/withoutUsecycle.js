@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useCycle } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import { Container, H1, HeroSection, Banner, TextBox } from "./Styles";
 import { ReactComponent as BannerIllustration } from "./bighead.svg";
 import "./App.css";
@@ -15,30 +15,18 @@ const TextVariants = {
 };
 
 const BannerVariants = {
-  animationOne: { x: -250, opacity: 1, transition: { duration: 0.5 } },
-  animationTwo: {
-    y: [0, -20],
-    opacity: 1,
-    transition: { yoyo: Infinity, ease: "easeIn" },
-  },
+  initial: { x: -400, opacity: 0 },
+  animate: { x: 0, opacity: 1, transition: { duration: 0.5 } },
 };
 
 function App() {
-  const [animation, cycleAnimation] = useCycle("animationOne", "animationTwo");
-
-  useEffect(() => {
-    setTimeout(() => {
-      cycleAnimation();
-    }, 1000);
-  }, []);
-
   return (
     <div className="App">
       <Container>
         <H1 variants={H1Variants} initial="initial" animate="animate">
           Cool Hero Section Anmiation
         </H1>
-        <HeroSection>
+        <HeroSection initial="initial" animate="animate">
           <TextBox variants={TextVariants} initial="initial" animate="animate">
             Storage shed, troughs feed bale manure, is garden wheat oats at
             augers. Bulls at rose garden cucumbers mice sunflower wheat in pig.
@@ -47,7 +35,7 @@ function App() {
             storage shed, troughs feed bale manure, is garden wheat oats at
             augers. Lamb.
           </TextBox>
-          <Banner variants={BannerVariants} animate={animation}>
+          <Banner variants={BannerVariants} initial="initial" animate="animate">
             <BannerIllustration />
           </Banner>
         </HeroSection>
